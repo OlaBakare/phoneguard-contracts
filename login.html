@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Log in | PhoneGuard</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body class="auth-body">
+  <main class="auth-shell">
+    <a href="index.html" class="auth-brand" aria-label="Back to PhoneGuard home">
+      <img src="logo.svg" alt="PhoneGuard" width="220" height="66" />
+    </a>
+    <section class="auth-card">
+      <p class="eyebrow">Welcome back</p>
+      <h1>Log in to your protection workspace.</h1>
+      <form>
+        <label for="email">Email address</label>
+        <input id="email" type="email" placeholder="you@example.com" required />
+        <label for="password">Password</label>
+        <input id="password" type="password" placeholder="Enter your password" required />
+        <div class="form-row">
+          <label class="check-label"><input type="checkbox" /> Remember me</label>
+          <a href="signup.html">Need access?</a>
+        </div>
+        <a href="dashboard.html" class="btn btn-lime">Log in</a>
+      </form>
+    </section>
+    <p class="auth-note">Protected by encrypted sessions, access logs, and account-level review history.</p>
+  </main>
+</body>
+</html>

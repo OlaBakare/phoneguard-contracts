@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard | PhoneGuard</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body class="dashboard-body">
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="index.html" class="brand" aria-label="PhoneGuard home">
+        <img src="logo.svg" alt="PhoneGuard" class="brand-logo" width="240" height="72" />
+      </a>
+      <nav class="nav-links" aria-label="Dashboard navigation">
+        <a href="index.html#track">New Check</a>
+        <a href="index.html#workflow">Workflows</a>
+        <a href="login.html">Log out</a>
+      </nav>
+    </div>
+  </header>
+  <main class="dashboard-main container">
+    <section class="dashboard-hero">
+      <div>
+        <p class="eyebrow">Workspace overview</p>
+        <h1>Device protection dashboard.</h1>
+        <p>Review recent IMEI activity, open investigations, and purchase checks from one interface.</p>
+      </div>
+      <a href="index.html#track" class="btn btn-lime">Run IMEI Check</a>
+    </section>
+    <section class="dashboard-grid">
+      <article><span>Active cases</span><strong>12</strong><p>3 require carrier follow-up</p></article>
+      <article><span>Safe checks</span><strong>284</strong><p>Last 30 days</p></article>
+      <article><span>Flagged devices</span><strong>7</strong><p>Awaiting review</p></article>
+      <article><span>Audit events</span><strong>1,904</strong><p>Fully searchable history</p></article>
+    </section>
+    <section class="activity-panel">
+      <h2>Recent activity</h2>
+      <div class="activity-row"><span>IMEI ending 4812</span><strong>Tracking started</strong><em>2 min ago</em></div>
+      <div class="activity-row"><span>IMEI ending 0369</span><strong>Purchase verified</strong><em>18 min ago</em></div>
+      <div class="activity-row"><span>IMEI ending 7740</span><strong>Carrier review needed</strong><em>1 hr ago</em></div>
+    </section>
+  </main>
+</body>
+</html>
