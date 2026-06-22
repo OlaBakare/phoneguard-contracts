@@ -124,6 +124,17 @@ input {
   padding: 0.6rem 0.75rem;
 }
 
+.header-actions .text-link,
+.header-actions .btn {
+  min-height: 2.55rem;
+}
+
+.header-actions .text-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .site-header:not(.dark-header) .nav-links a:hover,
 .site-header:not(.dark-header) .text-link:hover {
   background: #edf3ee;
@@ -943,8 +954,15 @@ input:focus {
 
 @media (max-width: 960px) {
   .header-inner {
-    align-items: flex-start;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 0.75rem 1rem;
+  }
+
+  .brand {
+    grid-column: 1;
+    grid-row: 1;
   }
 
   .nav-links,
@@ -953,9 +971,38 @@ input:focus {
     overflow: visible;
   }
 
+  .nav-links {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 0.5rem;
+  }
+
+  .header-inner > .nav-links:last-child {
+    grid-column: 1 / -1;
+  }
+
+  .header-actions {
+    grid-column: 2;
+    grid-row: 1;
+    justify-content: end;
+    width: auto;
+  }
+
   .nav-links a,
   .header-actions a {
     white-space: normal;
+  }
+
+  .nav-links a {
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 0.72rem 0.55rem;
+    text-align: center;
+  }
+
+  .site-header:not(.dark-header) .nav-links a {
+    border-color: rgba(17, 21, 18, 0.1);
   }
 
   .hero-center h1 {
@@ -995,13 +1042,30 @@ input:focus {
     width: 10rem;
   }
 
-  .nav-links {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+  .header-inner {
+    grid-template-columns: 1fr;
+    gap: 0.7rem;
   }
 
-  .nav-links a {
-    text-align: center;
+  .brand,
+  .header-actions,
+  .nav-links {
+    grid-column: 1;
+  }
+
+  .brand {
+    grid-row: 1;
+    justify-content: center;
+  }
+
+  .header-actions {
+    grid-row: 2;
+    width: 100%;
+  }
+
+  .nav-links {
+    grid-row: 3;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .header-actions {
@@ -1012,6 +1076,17 @@ input:focus {
   .header-actions .text-link,
   .header-actions .btn {
     width: 100%;
+  }
+
+  .dark-header .header-actions .text-link {
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    background: rgba(255, 255, 255, 0.06);
+    color: #ffffff;
+  }
+
+  .site-header:not(.dark-header) .header-actions .text-link {
+    border: 1px solid rgba(17, 21, 18, 0.1);
+    background: #ffffff;
   }
 
   .hero-dark {
@@ -1157,6 +1232,10 @@ input:focus {
   .form-card,
   .activity-panel {
     padding: 1rem;
+  }
+
+  .header-actions {
+    justify-content: stretch;
   }
 }
 
