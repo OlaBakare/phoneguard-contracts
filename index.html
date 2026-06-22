@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PhoneGuard | Secure IMEI Tracking & Buyer Protection</title>
+  <meta name="description" content="PhoneGuard helps you check IMEI status, report stolen devices, and make safer phone purchase decisions." />
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  <link rel="preload" href="logo.svg" as="image" type="image/svg+xml" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="#" class="brand" aria-label="PhoneGuard home">
+        <img src="logo.svg" alt="PhoneGuard" class="brand-logo" width="240" height="72" />
+      </a>
+      <nav class="nav-links" aria-label="Primary navigation">
+        <a href="#track">Track</a>
+        <a href="#check">Check IMEI</a>
+        <a href="#guide">How It Works</a>
+        <a href="#report">Report</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <p class="eyebrow accent">Fast secure device checks</p>
+          <h1>Recover stolen devices and verify IMEI status instantly.</h1>
+          <p>PhoneGuard gives you a clean, reliable way to track a lost phone and confirm whether a device is safe to buy.</p>
+          <div class="hero-actions">
+            <a href="#track" class="btn btn-primary">Track My Phone</a>
+            <a href="#check" class="btn btn-secondary">Check IMEI</a>
+          </div>
+          <div class="hero-highlights">
+            <div>
+              <strong>Protected lookups</strong>
+              <span>Safe IMEI checks with privacy-first guidance.</span>
+            </div>
+            <div>
+              <strong>Clear next steps</strong>
+              <span>Simple results that help you act quickly.</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-visual" aria-label="PhoneGuard device protection dashboard preview">
+          <div class="visual-header">
+            <span class="status-pill">Active Protection</span>
+            <span>PhoneGuard Dashboard</span>
+          </div>
+          <div class="phone-shell" aria-hidden="true">
+            <div class="phone-screen">
+              <span class="screen-camera"></span>
+              <div class="signal-card">
+                <span class="radar-dot"></span>
+                <div>
+                  <strong>Device signal found</strong>
+                  <small>IMEI ending 4812</small>
+                </div>
+              </div>
+              <div class="map-path"></div>
+              <div class="scan-line"></div>
+            </div>
+          </div>
+          <div class="status-panel">
+            <div class="status-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path d="M12 21s7-5.6 7-12A7 7 0 0 0 5 9c0 6.4 7 12 7 12Z"/><circle cx="12" cy="9" r="2.5"/></svg>
+            </div>
+            <div>
+              <h2>IMEI Search</h2>
+              <p>Enter a device number to get location hints and status checks.</p>
+            </div>
+          </div>
+          <div class="detail-grid">
+            <div class="detail-card">
+              <div class="detail-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><rect x="5" y="10" width="14" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
+              </div>
+              <p>Protected verification</p>
+            </div>
+            <div class="detail-card">
+              <div class="detail-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><rect x="7" y="2.5" width="10" height="19" rx="2.5"/><path d="M11 18h2"/></svg>
+              </div>
+              <p>Phone recovery support</p>
+            </div>
+            <div class="detail-card">
+              <div class="detail-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><path d="m20 6-11 11-5-5"/></svg>
+              </div>
+              <p>Trusted purchase decisions</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="track" class="section panel-light">
+      <div class="container section-heading">
+        <p class="eyebrow">Track My Phone</p>
+        <h2>Locate your stolen phone with a secure IMEI entry.</h2>
+        <p>Enter the IMEI of the missing phone and let PhoneGuard attempt a safe location lookup.</p>
+      </div>
+      <div class="container card-soft form-card">
+        <form id="trackForm">
+          <label for="track-imei">Phone IMEI</label>
+          <input id="track-imei" name="track-imei" type="text" inputmode="numeric" pattern="[0-9]{15}" placeholder="Enter 15-digit IMEI" maxlength="15" required />
+          <button type="submit" class="btn btn-primary">Start Tracking</button>
+          <p class="form-note">We do not store your IMEI. This lookup is for immediate assistance only.</p>
+        </form>
+        <div id="trackResult" class="result-box hidden"></div>
+      </div>
+    </section>
+
+    <section id="check" class="section">
+      <div class="container section-heading">
+        <p class="eyebrow">Check IMEI Status</p>
+        <h2>Verify a phone before you buy.</h2>
+        <p>A quick, simple check helps confirm whether a device is reported stolen or safe to purchase.</p>
+      </div>
+      <div class="container card-soft form-card">
+        <form id="checkForm">
+          <label for="check-imei">IMEI for Purchase</label>
+          <input id="check-imei" name="check-imei" type="text" inputmode="numeric" pattern="[0-9]{15}" placeholder="Enter 15-digit IMEI" maxlength="15" required />
+          <button type="submit" class="btn btn-secondary">Verify Now</button>
+          <p class="form-note">Results provided for orientation only. Always confirm with the seller and device carrier.</p>
+        </form>
+        <div id="checkResult" class="result-box hidden"></div>
+      </div>
+    </section>
+
+    <section id="guide" class="section panel-light feature-grid">
+      <div class="container section-heading">
+        <p class="eyebrow">How It Works</p>
+        <h2>Simple steps for protection and verification.</h2>
+      </div>
+      <div class="container steps-grid">
+        <article class="step-card">
+          <div class="icon-circle blue">1</div>
+          <h3>Enter IMEI</h3>
+          <p>Type the 15-digit IMEI into the secure form for tracking or status checks.</p>
+        </article>
+        <article class="step-card">
+          <div class="icon-circle green">2</div>
+          <h3>Review Report</h3>
+          <p>Get a clear status summary that highlights whether the device is safe or flagged.</p>
+        </article>
+        <article class="step-card">
+          <div class="icon-circle dark">3</div>
+          <h3>Take Action</h3>
+          <p>If stolen, report it to authorities and your carrier. If buying, proceed only with verified phones.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="report" class="section report-section">
+      <div class="container report-grid">
+        <div>
+          <p class="eyebrow">Report a Stolen Phone</p>
+          <h2>Help protect yourself and the community.</h2>
+          <p>Use PhoneGuard as a first step to report a lost or stolen device. Share details with authorities and your service provider for faster action.</p>
+          <ul class="bullet-list">
+            <li><strong>Step 1:</strong> Note your IMEI and phone model.</li>
+            <li><strong>Step 2:</strong> Contact your carrier and local law enforcement.</li>
+            <li><strong>Step 3:</strong> Use our status checker before accepting a returned or replacement phone.</li>
+          </ul>
+          <a href="#track" class="btn btn-primary">Begin Report</a>
+        </div>
+        <div class="report-visual">
+          <div class="report-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M12 3 20 6v6c0 5-3.2 8.5-8 10-4.8-1.5-8-5-8-10V6l8-3Z"/><path d="m8.8 12 2.2 2.2 4.5-5"/></svg>
+          </div>
+          <h3>Secure Flagging</h3>
+          <p>Your IMEI entry helps you see whether a lost phone is already marked as stolen.</p>
+          <div class="report-highlights">
+            <div>
+              <span class="mini-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M2 20h20"/><path d="M5 17a10 10 0 0 1 14 0"/><path d="M8.5 13.5a5 5 0 0 1 7 0"/><path d="M12 10h.01"/></svg></span>
+              <p>Location guidance</p>
+            </div>
+            <div>
+              <span class="mini-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z"/><path d="M4 21a8 8 0 0 1 16 0"/></svg></span>
+              <p>Buyer protection</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div>
+        <img src="logo.svg" alt="PhoneGuard" class="footer-logo" width="200" height="60" />
+        <p>Secure IMEI tracking and verification designed for safety, trust, and fast decision-making.</p>
+      </div>
+      <div>
+        <h3>FAQs</h3>
+        <ul>
+          <li>How accurate is the IMEI status? <span>It is meant as a guide; always confirm with carriers.</span></li>
+          <li>Can PhoneGuard locate my phone exactly? <span>We provide location hints only; contact authorities for recovery.</span></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Contact</h3>
+        <p>Email: support@phoneguard.example</p>
+        <p>Phone: +1 (800) 555-0198</p>
+      </div>
+      <div>
+        <h3>Legal</h3>
+        <p>PhoneGuard is a verification tool only and does not replace official carrier or law enforcement processes.</p>
+      </div>
+    </div>
+    <div class="footer-note">&copy; 2026 PhoneGuard. All rights reserved.</div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
