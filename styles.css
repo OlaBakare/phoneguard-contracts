@@ -28,11 +28,15 @@
 
 html {
   scroll-behavior: smooth;
+  max-width: 100%;
+  overflow-x: clip;
 }
 
 body {
   margin: 0;
   min-height: 100vh;
+  max-width: 100%;
+  overflow-x: clip;
   background: #f4f7f2;
 }
 
@@ -50,6 +54,19 @@ a {
 button,
 input {
   font: inherit;
+}
+
+.brand,
+.split-grid > *,
+.workflow-grid > *,
+.forms-grid > *,
+.pricing-grid > *,
+.footer-grid > *,
+.dashboard-grid > *,
+.activity-row > *,
+.form-card,
+.auth-card {
+  min-width: 0;
 }
 
 .container {
@@ -95,6 +112,7 @@ input {
 .header-actions {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   gap: 0.35rem;
   font-size: 0.9rem;
   font-weight: 750;
@@ -126,12 +144,15 @@ input {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  max-width: 100%;
   min-height: 2.8rem;
   border: 1px solid transparent;
   border-radius: var(--radius);
   padding: 0.78rem 1rem;
   cursor: pointer;
   font-weight: 800;
+  text-align: center;
+  overflow-wrap: anywhere;
   transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
 }
 
@@ -302,6 +323,7 @@ h2,
 h3,
 p {
   text-wrap: pretty;
+  overflow-wrap: anywhere;
 }
 
 .split-grid {
@@ -663,6 +685,7 @@ label {
 
 input {
   width: 100%;
+  max-width: 100%;
   min-height: 3.15rem;
   border: 1px solid var(--line);
   border-radius: var(--radius);
@@ -927,18 +950,12 @@ input:focus {
   .nav-links,
   .header-actions {
     width: 100%;
-    overflow-x: auto;
-    scrollbar-width: none;
-  }
-
-  .nav-links::-webkit-scrollbar,
-  .header-actions::-webkit-scrollbar {
-    display: none;
+    overflow: visible;
   }
 
   .nav-links a,
   .header-actions a {
-    white-space: nowrap;
+    white-space: normal;
   }
 
   .hero-center h1 {
@@ -974,6 +991,29 @@ input:focus {
     padding: 3.5rem 0;
   }
 
+  .brand-logo {
+    width: 10rem;
+  }
+
+  .nav-links {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .nav-links a {
+    text-align: center;
+  }
+
+  .header-actions {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .header-actions .text-link,
+  .header-actions .btn {
+    width: 100%;
+  }
+
   .hero-dark {
     min-height: auto;
     padding-top: 3rem;
@@ -993,12 +1033,30 @@ input:focus {
   }
 
   .shield-stage {
-    height: 15rem;
+    height: 13.5rem;
   }
 
   .hero-shield {
-    width: 11rem;
-    height: 12.6rem;
+    width: 9.6rem;
+    height: 11rem;
+  }
+
+  .shield-inner {
+    inset: 2.65rem 2.85rem 2.9rem;
+  }
+
+  .orbit-line {
+    bottom: -5.8rem;
+    width: 38rem;
+    height: 15rem;
+  }
+
+  .node-left {
+    left: 1rem;
+  }
+
+  .node-right {
+    right: 1rem;
   }
 
   .logo-strip,
@@ -1011,6 +1069,25 @@ input:focus {
 
   .beam-visual {
     min-height: 17rem;
+  }
+
+  .beam-visual span {
+    max-width: 9.5rem;
+  }
+
+  .beam-visual span:nth-child(3) {
+    right: 4%;
+  }
+
+  .beam-visual span:nth-child(4) {
+    right: 8%;
+  }
+
+  .globe {
+    right: 1rem;
+    top: 34%;
+    width: 6rem;
+    height: 6rem;
   }
 
   .quote-chip {
@@ -1037,5 +1114,78 @@ input:focus {
 
   .btn {
     width: 100%;
+  }
+}
+
+@media (max-width: 420px) {
+  .container,
+  .auth-shell {
+    width: min(100% - 1rem, 1120px);
+  }
+
+  .hero-center h1 {
+    font-size: 2.25rem;
+  }
+
+  .split-grid h2,
+  .section-heading h2,
+  .workflow-section h2,
+  .pricing-section h2,
+  .proof-inner h2,
+  .dashboard-hero h1 {
+    font-size: 1.95rem;
+  }
+
+  .auth-card h1 {
+    font-size: 2rem;
+  }
+
+  .trust-line,
+  .hero-lede,
+  .split-grid p,
+  .section-heading p,
+  .workflow-grid p,
+  .pricing-grid p {
+    font-size: 0.95rem;
+  }
+
+  .footer-watermark {
+    font-size: 3rem;
+  }
+
+  .auth-card,
+  .form-card,
+  .activity-panel {
+    padding: 1rem;
+  }
+}
+
+@media (max-width: 340px) {
+  .hero-center h1 {
+    font-size: 2rem;
+  }
+
+  .split-grid h2,
+  .section-heading h2,
+  .workflow-section h2,
+  .pricing-section h2,
+  .proof-inner h2,
+  .dashboard-hero h1 {
+    font-size: 1.75rem;
+  }
+
+  .nav-links,
+  .header-actions,
+  .tabs {
+    grid-template-columns: 1fr;
+  }
+
+  .brand-logo {
+    width: 8.8rem;
+  }
+
+  .stats-grid strong,
+  .dashboard-grid strong {
+    font-size: 2rem;
   }
 }
