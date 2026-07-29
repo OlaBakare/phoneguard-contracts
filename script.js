@@ -12,20 +12,15 @@
 function setupThemeToggle() {
   const toggleBtn = document.getElementById('themeToggle');
   if (!toggleBtn) return;
-
   function updateToggleUI() {
     const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
     const isDark = currentTheme === 'dark';
     toggleBtn.setAttribute('aria-label', isDark ? 'Switch to light mode' : 'Switch to dark mode');
     toggleBtn.setAttribute('aria-pressed', isDark ? 'true' : 'false');
     const textSpan = toggleBtn.querySelector('.theme-toggle-text');
-    if (textSpan) {
-      textSpan.textContent = isDark ? 'Light' : 'Dark';
-    }
+    if (textSpan) textSpan.textContent = isDark ? 'Light' : 'Dark';
   }
-
   updateToggleUI();
-
   toggleBtn.addEventListener('click', () => {
     const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
     const nextTheme = currentTheme === 'dark' ? 'light' : 'dark';
@@ -33,12 +28,10 @@ function setupThemeToggle() {
     localStorage.setItem('theme', nextTheme);
     updateToggleUI();
   });
-
   if (window.matchMedia) {
     window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
       if (!localStorage.getItem('theme')) {
-        const osTheme = e.matches ? 'dark' : 'light';
-        document.documentElement.setAttribute('data-theme', osTheme);
+        document.documentElement.setAttribute('data-theme', e.matches ? 'dark' : 'light');
         updateToggleUI();
       }
     });
@@ -59,15 +52,55 @@ function isValidIMEI(value) {
   return /^\d{15}$/.test(value.trim());
 }
 
-async function setupWeb3Forms() {
+const isWeb3Ready = () => typeof PhoneGuardWeb3 !== 'undefined' && typeof ethers !== 'undefined' && PhoneGuardWeb3.isConnected();
+
+async function setupWalletButton() {
+  const btn = document.getElementById('walletConnect');
+  if (!btn) return;
+  function updateButton(account) {
+    if (account) {
+      btn.innerHTML = `${PhoneGuardWeb3.shortenAddr(account)}`;
+      btn.classList.add('connected');
+    } else {
+      btn.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12H7M21 12l-4-4m4 4l-4 4"/></svg> Connect Wallet`;
+      btn.classList.remove('connected');
+    }
+  }
+  btn.addEventListener('click', async () => {
+    if (PhoneGuardWeb3.isConnected()) return;
+    try {
+      const account = await PhoneGuardWeb3.connect();
+      if (account) {
+        updateButton(account);
+        await refreshWalletDisplay();
+      }
+    } catch (err) { console.error('Wallet connection failed:', err); }
+  });
+  document.addEventListener('phoneguard-account-changed', (e) => {
+    updateButton(e.detail.account);
+    refreshWalletDisplay();
+  });
+  if (PhoneGuardWeb3.isConnected()) {
+    const account = await PhoneGuardWeb3.getAccount();
+    updateButton(account);
+  }
+}
+
+async function refreshWalletDisplay() {
+  if (!isWeb3Ready()) return;
+  try {
+    const balance = await PhoneGuardWeb3.getBalance();
+    const formatted = PhoneGuardWeb3.formatUnits(balance);
+    const els = document.querySelectorAll('#walletBalanceDisplay, #dashBalance');
+    els.forEach(el => { if (el) el.textContent = `${parseFloat(formatted).toFixed(4)} ETH`; });
+  } catch (e) { /* noop */ }
+}
+
+async function setupMarketplaceForms() {
   const trackForm = document.getElementById('trackForm');
   const checkForm = document.getElementById('checkForm');
   const trackResult = document.getElementById('trackResult');
   const checkResult = document.getElementById('checkResult');
-
-  if (!trackForm && !checkForm) return;
-
-  const isWeb3Ready = typeof PhoneGuardWeb3 !== 'undefined' && typeof ethers !== 'undefined';
 
   if (trackForm && trackResult) {
     trackForm.addEventListener('submit', async (event) => {
@@ -75,21 +108,18 @@ async function setupWeb3Forms() {
       const imei = document.getElementById('track-imei').value;
       trackResult.classList.remove('hidden');
       if (!isValidIMEI(imei)) {
-        trackResult.innerHTML = formatMessage('Invalid IMEI', 'Please enter a 15-digit IMEI number to continue.');
+        trackResult.innerHTML = formatMessage('Invalid IMEI', 'Enter a 15-digit IMEI.');
         return;
       }
-      if (isWeb3Ready && PhoneGuardWeb3.isConnected()) {
+      if (isWeb3Ready()) {
         try {
           await PhoneGuardWeb3.reportStolen(imei);
-          const result = await PhoneGuardWeb3.checkDevice(imei);
-          const status = result[2] ? 'Stolen' : 'Clean';
-          trackResult.innerHTML = formatMessage('On-chain report submitted',
-            `IMEI ${imei} reported. On-chain status: <strong>${status}</strong>. Transaction recorded to the blockchain.`);
+          trackResult.innerHTML = formatMessage('Reported on chain', `IMEI ${imei} marked as stolen. Visible to all buyers, shops, and teams.`);
         } catch (err) {
-          trackResult.innerHTML = formatMessage('Blockchain error', err.message || 'Could not submit to chain. Using offline mode.');
+          trackResult.innerHTML = formatMessage('Error', err.message || 'Could not submit.');
         }
       } else {
-        trackResult.innerHTML = formatMessage('Tracking started', 'Your IMEI lookup is being processed. Connect a wallet to submit on-chain reports.');
+        trackResult.innerHTML = formatMessage('Connect wallet', 'Connect your wallet to report a stolen device on-chain.');
       }
     });
   }
@@ -100,85 +130,132 @@ async function setupWeb3Forms() {
       const imei = document.getElementById('check-imei').value;
       checkResult.classList.remove('hidden');
       if (!isValidIMEI(imei)) {
-        checkResult.innerHTML = formatMessage('Invalid IMEI', 'Please enter a 15-digit IMEI number to continue.');
+        checkResult.innerHTML = formatMessage('Invalid IMEI', 'Enter a 15-digit IMEI.');
         return;
       }
-      if (isWeb3Ready && PhoneGuardWeb3.isConnected()) {
+      if (isWeb3Ready()) {
         try {
           const result = await PhoneGuardWeb3.checkDevice(imei);
           if (result[0]) {
-            const status = result[2] ? '🚨 Reported Stolen' : '✅ Clean';
-            const owner = PhoneGuardWeb3.shortenAddr(result[1]);
-            checkResult.innerHTML = formatMessage('On-chain verification',
-              `IMEI ${imei} — Status: ${status}. Owner: ${owner}. Registered: ${new Date(Number(result[3]) * 1000).toLocaleDateString()}.`);
+            const status = result[2] ? 'Reported Stolen' : 'Clean';
+            checkResult.innerHTML = formatMessage('On-chain result',
+              `IMEI ${imei} — ${status}. Owner: ${PhoneGuardWeb3.shortenAddr(result[1])}. Registered: ${new Date(Number(result[3]) * 1000).toLocaleDateString()}.`);
           } else {
-            checkResult.innerHTML = formatMessage('Not on chain', 'This IMEI has not been registered on the blockchain. It may still be safe, but verify with the seller directly.');
+            checkResult.innerHTML = formatMessage('Not registered', 'This IMEI is not on the blockchain yet. Verify with the seller directly.');
           }
         } catch (err) {
-          checkResult.innerHTML = formatMessage('Blockchain lookup error', err.message);
+          checkResult.innerHTML = formatMessage('Error', err.message);
         }
       } else {
-        checkResult.innerHTML = formatMessage('Status check complete', 'The device appears safe for review. Connect a wallet to verify on-chain.');
+        checkResult.innerHTML = formatMessage('Connect wallet', 'Connect your wallet to verify IMEI on-chain.');
       }
     });
   }
 }
 
-async function setupWalletButton() {
-  const btn = document.getElementById('walletConnect');
-  if (!btn) return;
+async function setupWalletActions() {
+  const depositBtn = document.getElementById('depositBtn');
+  const withdrawBtn = document.getElementById('withdrawBtn');
+  const dashDepositBtn = document.getElementById('dashDepositBtn');
+  const dashCheckBtn = document.getElementById('dashCheckBtn');
+  const dashRegisterBtn = document.getElementById('dashRegisterBtn');
+  const dashSellBtn = document.getElementById('dashSellBtn');
 
-  function updateButton(account) {
-    if (account) {
-      btn.innerHTML = `${PhoneGuardWeb3.shortenAddr(account)}`;
-      btn.classList.add('connected');
-    } else {
-      btn.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12H7M21 12l-4-4m4 4l-4 4"/></svg> Connect Wallet`;
-      btn.classList.remove('connected');
-    }
+  if (depositBtn) {
+    depositBtn.addEventListener('click', async () => {
+      if (!isWeb3Ready()) return alert('Connect your wallet first.');
+      const amt = prompt('Enter ETH amount to deposit:', '0.1');
+      if (!amt || isNaN(amt) || Number(amt) <= 0) return;
+      try {
+        await PhoneGuardWeb3.deposit(PhoneGuardWeb3.parseUnits(amt));
+        await refreshWalletDisplay();
+        alert(`Deposited ${amt} ETH successfully.`);
+      } catch (err) { alert('Deposit failed: ' + err.message); }
+    });
   }
 
-  btn.addEventListener('click', async () => {
-    if (PhoneGuardWeb3.isConnected()) return;
-    try {
-      const account = await PhoneGuardWeb3.connect();
-      if (account) {
-        updateButton(account);
-      }
-    } catch (err) {
-      console.error('Wallet connection failed:', err);
-    }
-  });
+  if (withdrawBtn) {
+    withdrawBtn.addEventListener('click', async () => {
+      if (!isWeb3Ready()) return alert('Connect your wallet first.');
+      const amt = prompt('Enter ETH amount to withdraw:', '0.05');
+      if (!amt || isNaN(amt) || Number(amt) <= 0) return;
+      try {
+        await PhoneGuardWeb3.withdraw(PhoneGuardWeb3.parseUnits(amt));
+        await refreshWalletDisplay();
+        alert(`Withdrew ${amt} ETH successfully.`);
+      } catch (err) { alert('Withdraw failed: ' + err.message); }
+    });
+  }
 
-  document.addEventListener('phoneguard-account-changed', (e) => {
-    updateButton(e.detail.account);
-  });
+  if (dashDepositBtn) {
+    dashDepositBtn.addEventListener('click', async () => {
+      if (!isWeb3Ready()) return alert('Connect your wallet first.');
+      const amt = prompt('Enter ETH amount to deposit:', '0.1');
+      if (!amt || isNaN(amt) || Number(amt) <= 0) return;
+      try {
+        await PhoneGuardWeb3.deposit(PhoneGuardWeb3.parseUnits(amt));
+        await refreshWalletDisplay();
+        alert(`Deposited ${amt} ETH.`);
+      } catch (err) { alert('Deposit failed: ' + err.message); }
+    });
+  }
 
-  if (PhoneGuardWeb3.isConnected()) {
-    const account = await PhoneGuardWeb3.getAccount();
-    updateButton(account);
+  if (dashCheckBtn) {
+    dashCheckBtn.addEventListener('click', () => {
+      const imei = prompt('Enter 15-digit IMEI to check:');
+      if (!imei || !isValidIMEI(imei)) return alert('Invalid IMEI.');
+      window.location.href = 'index.html#marketplace';
+    });
+  }
+
+  if (dashRegisterBtn) {
+    dashRegisterBtn.addEventListener('click', async () => {
+      if (!isWeb3Ready()) return alert('Connect your wallet first.');
+      const imei = prompt('Enter 15-digit IMEI to register:');
+      if (!imei || !isValidIMEI(imei)) return alert('Invalid IMEI.');
+      try {
+        await PhoneGuardWeb3.registerDevice(imei, '');
+        alert(`Device ${imei} registered on-chain.`);
+      } catch (err) { alert('Registration failed: ' + err.message); }
+    });
+  }
+
+  if (dashSellBtn) {
+    dashSellBtn.addEventListener('click', async () => {
+      if (!isWeb3Ready()) return alert('Connect your wallet first.');
+      const imei = prompt('Enter IMEI of device to sell:');
+      if (!imei || !isValidIMEI(imei)) return alert('Invalid IMEI.');
+      const price = prompt('Enter price in ETH:');
+      if (!price || isNaN(price) || Number(price) <= 0) return alert('Invalid price.');
+      try {
+        await PhoneGuardWeb3.createListing(imei, PhoneGuardWeb3.parseUnits(price), 'For sale');
+        alert(`Device ${imei} listed for ${price} ETH.`);
+      } catch (err) { alert('Listing failed: ' + err.message); }
+    });
   }
 }
 
-async function setupDashboardWeb3() {
+async function setupDashboard() {
   const walletInfoEl = document.getElementById('walletInfo');
-  if (!walletInfoEl) return;
-  if (PhoneGuardWeb3.isConnected()) {
+  if (walletInfoEl && isWeb3Ready()) {
     const account = await PhoneGuardWeb3.getAccount();
     walletInfoEl.textContent = `Connected: ${PhoneGuardWeb3.shortenAddr(account)}`;
   }
+  await refreshWalletDisplay();
 }
 
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', async () => {
-    await setupWeb3Forms();
     await setupWalletButton();
-    await setupDashboardWeb3();
+    await setupMarketplaceForms();
+    await setupWalletActions();
+    await setupDashboard();
   });
 } else {
   (async () => {
-    await setupWeb3Forms();
     await setupWalletButton();
-    await setupDashboardWeb3();
+    await setupMarketplaceForms();
+    await setupWalletActions();
+    await setupDashboard();
   })();
 }

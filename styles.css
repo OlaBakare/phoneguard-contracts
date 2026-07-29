@@ -293,6 +293,94 @@ input {
   font-weight: 700;
 }
 
+.role-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+.role-grid article {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 1.4rem;
+  background: var(--card-bg);
+  box-shadow: 0 14px 34px rgba(6, 42, 41, 0.06);
+}
+
+.role-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.4rem;
+  height: 2.4rem;
+  border-radius: var(--radius);
+  background: var(--lime);
+  color: #15220d;
+  font-weight: 900;
+  font-size: 0.9rem;
+  margin-bottom: 0.8rem;
+}
+
+.role-grid h3 {
+  margin: 0 0 0.5rem;
+}
+
+.role-grid p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
+.wallet-balance-card {
+  text-align: center;
+  padding: 0.5rem;
+}
+
+.wallet-balance-card h3 {
+  margin: 0 0 0.3rem;
+}
+
+.balance-display {
+  font-size: 2.2rem;
+  font-weight: 900;
+  color: var(--lime-2);
+  margin: 0.5rem 0;
+}
+
+.wallet-actions {
+  display: flex;
+  gap: 0.8rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 0.8rem;
+}
+
+.dash-actions {
+  display: flex;
+  gap: 0.8rem;
+}
+
+.quick-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.8rem;
+}
+
+@media (max-width: 960px) {
+  .role-grid {
+    grid-template-columns: 1fr;
+  }
+  .quick-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .quick-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 .btn {
   display: inline-flex;
   align-items: center;

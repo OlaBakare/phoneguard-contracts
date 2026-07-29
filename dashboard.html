@@ -22,8 +22,9 @@
         <img src="logo.svg" alt="PhoneGuard" class="brand-logo" width="240" height="72" />
       </a>
       <nav class="nav-links" aria-label="Dashboard navigation">
-        <a href="index.html#track">New Check</a>
-        <a href="index.html#workflow">Workflows</a>
+        <a href="index.html#marketplace">Marketplace</a>
+        <a href="index.html#buyers">Buyers</a>
+        <a href="index.html#shops">Shops</a>
         <a href="login.html">Log out</a>
       </nav>
       <div class="header-actions">
@@ -42,23 +43,35 @@
     <section class="dashboard-hero">
       <div>
         <p class="eyebrow">Workspace overview</p>
-        <h1>Device protection dashboard.</h1>
-        <p>Review recent IMEI activity, open investigations, and purchase checks from one interface.</p>
+        <h1>Your PhoneGuard Dashboard.</h1>
+        <p>Manage your wallet, listings, and device activity in one place.</p>
         <p id="walletInfo" class="wallet-info"></p>
       </div>
-      <a href="index.html#track" class="btn btn-lime">Run IMEI Check</a>
+      <div class="dash-actions">
+        <a href="index.html#marketplace" class="btn btn-lime">Browse Marketplace</a>
+      </div>
     </section>
+
     <section class="dashboard-grid">
-      <article><span>Active cases</span><strong>12</strong><p>3 require carrier follow-up</p></article>
-      <article><span>Safe checks</span><strong>284</strong><p>Last 30 days</p></article>
-      <article><span>Flagged devices</span><strong>7</strong><p>Awaiting review</p></article>
-      <article><span>Audit events</span><strong>1,904</strong><p>Fully searchable history</p></article>
+      <article><span>Wallet Balance</span><strong id="dashBalance">0.00 ETH</strong><p>Connected wallet</p></article>
+      <article><span>Listings</span><strong>0</strong><p>Active marketplace listings</p></article>
+      <article><span>Devices</span><strong>0</strong><p>Registered on-chain</p></article>
+      <article><span>Repairs</span><strong>0</strong><p>Completed & in progress</p></article>
     </section>
+
     <section class="activity-panel">
-      <h2>Recent activity</h2>
-      <div class="activity-row"><span>IMEI ending 4812</span><strong>Tracking started</strong><em>2 min ago</em></div>
-      <div class="activity-row"><span>IMEI ending 0369</span><strong>Purchase verified</strong><em>18 min ago</em></div>
-      <div class="activity-row"><span>IMEI ending 7740</span><strong>Carrier review needed</strong><em>1 hr ago</em></div>
+      <h2>Quick Actions</h2>
+      <div class="quick-grid">
+        <button class="btn btn-lime" id="dashCheckBtn">Check IMEI</button>
+        <button class="btn btn-dark" id="dashRegisterBtn">Register Device</button>
+        <button class="btn btn-secondary" id="dashDepositBtn">Deposit Funds</button>
+        <button class="btn btn-secondary" id="dashSellBtn">Sell a Phone</button>
+      </div>
+    </section>
+
+    <section class="activity-panel">
+      <h2>Recent Activity</h2>
+      <div class="activity-row"><span>Welcome to PhoneGuard</span><strong>Dashboard ready</strong><em>Connect your wallet to start</em></div>
     </section>
   </main>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/6.13.5/ethers.umd.min.js"></script>

@@ -1,58 +1,43 @@
-# PhoneGuard 🔒
+# PhoneGuard
 
-**IMEI Security and Device Protection — on-chain.**
+**The on-chain phone marketplace for buyers, repair shops, and device teams.**
 
-PhoneGuard is a Web3 platform for IMEI-based device security. Register phones on-chain, verify ownership before purchase, and report stolen devices immutably via Ethereum smart contracts.
+PhoneGuard connects buyers, repair shops, and device teams with on-chain IMEI verification, wallet payments, and secure marketplace trading. Every phone is verified on the blockchain before purchase.
 
-## Features
+## Sections
 
-- **On-chain Device Registry** — Register phones by IMEI (hashed for privacy) on the blockchain
-- **Stolen Device Reporting** — Report stolen devices immutably; status is verifiable by anyone
-- **Pre-Purchase Verification** — Check if a device is reported stolen before buying
-- **Ownership Transfers** — Transfer device ownership on-chain when selling
-- **Wallet Integration** — Connect with MetaMask or any Ethereum wallet
-- **Light/Dark Theme** — Persistent theme preference with OS detection
+### For Buyers
+Verify IMEI history before purchase, pay from your wallet, and receive ownership on-chain automatically. Shop for new, refurbished, or repaired phones with confidence.
+
+### For Repair Shops
+Scan devices at intake, accept wallet payments with no chargebacks, record repair history on-chain, and list refurbished phones in the marketplace.
+
+### For Device Teams
+Manage fleets, track inventory, and stay audit-ready with immutable on-chain records. Bulk register, transfer, and check devices.
 
 ## Smart Contract
 
-[`contracts/PhoneGuardRegistry.sol`](contracts/PhoneGuardRegistry.sol) — An Ethereum smart contract that manages device ownership and stolen-status records.
+[`contracts/PhoneGuardRegistry.sol`](contracts/PhoneGuardRegistry.sol)
 
-| Function | Description |
-|----------|-------------|
-| `registerDevice` | Register a device by its IMEI hash |
-| `reportStolen` | Mark your registered device as stolen |
-| `checkDevice` | Look up a device's on-chain status |
-| `transferOwnership` | Transfer device ownership to a new wallet |
-| `clearStolenStatus` | Clear stolen status (owner only) |
+| Feature | Functions |
+|---------|-----------|
+| **Device Registry** | `registerDevice`, `checkDevice`, `reportStolen`, `clearStolenStatus`, `transferOwnership` |
+| **Wallet** | `deposit`, `withdraw`, `getBalance` |
+| **Marketplace** | `createListing`, `buyListing`, `cancelListing`, `getActiveListings` |
+| **Repair Shop** | `requestRepair`, `completeRepair`, `getRepairsForCustomer`, `getRepairsForShop` |
 
 ## Tech Stack
 
 - **Smart Contracts** — Solidity 0.8.28 + Hardhat
 - **Frontend** — Vanilla HTML/CSS/JS + ethers.js
-- **Wallet** — MetaMask / WalletConnect (EVM-compatible)
+- **Wallet** — MetaMask (EVM-compatible)
 
 ## Getting Started
 
 ```bash
-# Install dependencies
 npm install
-
-# Compile smart contracts
 npm run compile
-
-# Run tests
 npm test
-
-# Start local Hardhat node
-npm run node
-
-# Deploy (local)
-npx hardhat run scripts/deploy.js --network localhost
-
-# Deploy (testnet)
-npm run deploy -- sepolia
-
-# Start dev server
 npm run dev
 ```
 
@@ -61,36 +46,17 @@ npm run dev
 ```
 PhoneGuard/
 ├── contracts/              # Solidity smart contracts
-│   └── PhoneGuardRegistry.sol
 ├── scripts/                # Deployment scripts
-│   └── deploy.js
 ├── test/                   # Contract tests
-│   └── PhoneGuardRegistry.test.js
-├── abi/                    # Contract ABIs (generated)
-├── index.html              # Landing page
-├── dashboard.html           # Workspace dashboard
-├── login.html              # Authentication
-├── signup.html             # Registration
-├── script.js               # Frontend logic
+├── index.html              # Landing page (Buyers, Shops, Teams + Marketplace)
+├── dashboard.html          # Dashboard (wallet, listings, devices)
+├── login.html / signup.html
 ├── web3.js                 # Web3 integration module
+├── script.js               # Frontend logic
 ├── styles.css              # All styles
-├── hardhat.config.js       # Hardhat configuration
-├── package.json
 └── README.md
 ```
 
-## Drips Wave — Contributing
+## Drips Wave
 
-This project participates in Drips Wave programs. Issues are tagged with complexity levels:
-
-| Complexity | Points | Description |
-|------------|--------|-------------|
-| Trivial | 100 | Small, clearly bounded changes |
-| Medium | 150 | Standard features or involved fixes |
-| High | 200 | Complex features or new integrations |
-
-Browse open issues, apply, and earn rewards for shipping PRs.
-
-## License
-
-MIT
+This project participates in Drips Wave programs. Issues tagged with complexity levels (Trivial / Medium / High) are open for contributors.
