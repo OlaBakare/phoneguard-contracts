@@ -6,7 +6,7 @@
   <title>PhoneGuard | Phone Marketplace & Device Protection</title>
   <meta name="description" content="PhoneGuard connects buyers, repair shops, and device teams with on-chain IMEI verification, wallet payments, and secure marketplace trading." />
   <link rel="icon" type="image/svg+xml" href="favicon.svg" />
-  <link rel="preload" href="logo.svg" as="image" type="image/svg+xml" />
+  <link rel="preload" href="logo-white.svg" as="image" type="image/svg+xml" />
   <link rel="stylesheet" href="styles.css" />
   <script>
     (function() {
@@ -21,8 +21,13 @@
   <header class="site-header dark-header">
     <div class="container header-inner">
       <a href="index.html" class="brand" aria-label="PhoneGuard home">
-        <img src="logo.svg" alt="PhoneGuard" class="brand-logo" width="240" height="72" />
+        <img src="logo-white.svg" alt="PhoneGuard" class="brand-logo" width="240" height="72" />
       </a>
+      <button type="button" class="hamburger" id="hamburgerBtn" aria-label="Menu" aria-expanded="false">
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+      </button>
       <nav class="nav-links" aria-label="Primary navigation">
         <a href="#buyers">Buyers</a>
         <a href="#shops">Repair Shops</a>
@@ -36,7 +41,6 @@
         <button type="button" class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
           <svg class="icon-moon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
           <svg class="icon-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
-          <span class="theme-toggle-text">Dark</span>
         </button>
         <a href="login.html" class="text-link">Log in</a>
         <a href="signup.html" class="btn btn-lime">Sign up</a>
@@ -44,6 +48,18 @@
     </div>
   </header>
 
+  <div class="mobile-nav-backdrop" id="mobileNavBackdrop"></div>
+  <nav class="mobile-nav" id="mobileNav" aria-hidden="true">
+    <div class="mobile-nav-inner">
+      <a href="#buyers">Buyers</a>
+      <a href="#shops">Repair Shops</a>
+      <a href="#teams">Device Teams</a>
+      <a href="#marketplace">Marketplace</a>
+      <hr>
+      <a href="login.html">Log in</a>
+      <a href="signup.html" class="btn btn-lime">Sign up</a>
+    </div>
+  </nav>
   <main>
     <section class="hero-dark">
       <div class="star-grid" aria-hidden="true"></div>
@@ -265,7 +281,7 @@
     <div class="container footer-watermark">PhoneGuard</div>
     <div class="container footer-grid">
       <div>
-        <img src="logo.svg" alt="PhoneGuard" class="footer-logo" width="200" height="60" />
+        <img src="logo-white.svg" alt="PhoneGuard" class="footer-logo" width="200" height="60" />
         <p>The on-chain phone marketplace for buyers, repair shops, and device teams.</p>
       </div>
       <div>

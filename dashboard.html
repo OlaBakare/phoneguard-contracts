@@ -21,6 +21,11 @@
       <a href="index.html" class="brand" aria-label="PhoneGuard home">
         <img src="logo.svg" alt="PhoneGuard" class="brand-logo" width="240" height="72" />
       </a>
+      <button type="button" class="hamburger" id="hamburgerBtn" aria-label="Menu" aria-expanded="false">
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+      </button>
       <nav class="nav-links" aria-label="Dashboard navigation">
         <a href="index.html#marketplace">Marketplace</a>
         <a href="index.html#buyers">Buyers</a>
@@ -34,11 +39,20 @@
         <button type="button" class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
           <svg class="icon-moon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
           <svg class="icon-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
-          <span class="theme-toggle-text">Dark</span>
         </button>
       </div>
     </div>
   </header>
+  <div class="mobile-nav-backdrop" id="mobileNavBackdrop"></div>
+  <nav class="mobile-nav" id="mobileNav" aria-hidden="true">
+    <div class="mobile-nav-inner">
+      <a href="index.html#marketplace">Marketplace</a>
+      <a href="index.html#buyers">Buyers</a>
+      <a href="index.html#shops">Shops</a>
+      <hr>
+      <a href="login.html">Log out</a>
+    </div>
+  </nav>
   <main class="dashboard-main container">
     <section class="dashboard-hero">
       <div>

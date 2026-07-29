@@ -17,8 +17,6 @@ function setupThemeToggle() {
     const isDark = currentTheme === 'dark';
     toggleBtn.setAttribute('aria-label', isDark ? 'Switch to light mode' : 'Switch to dark mode');
     toggleBtn.setAttribute('aria-pressed', isDark ? 'true' : 'false');
-    const textSpan = toggleBtn.querySelector('.theme-toggle-text');
-    if (textSpan) textSpan.textContent = isDark ? 'Light' : 'Dark';
   }
   updateToggleUI();
   toggleBtn.addEventListener('click', () => {
@@ -42,6 +40,46 @@ if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', setupThemeToggle);
 } else {
   setupThemeToggle();
+}
+
+function setupHamburger() {
+  const btn = document.getElementById('hamburgerBtn');
+  const nav = document.getElementById('mobileNav');
+  const backdrop = document.getElementById('mobileNavBackdrop');
+  if (!btn || !nav) return;
+  function open() {
+    btn.classList.add('active');
+    btn.setAttribute('aria-expanded', 'true');
+    nav.classList.add('active');
+    nav.setAttribute('aria-hidden', 'false');
+    if (backdrop) backdrop.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+  function close() {
+    btn.classList.remove('active');
+    btn.setAttribute('aria-expanded', 'false');
+    nav.classList.remove('active');
+    nav.setAttribute('aria-hidden', 'true');
+    if (backdrop) backdrop.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+  btn.addEventListener('click', () => {
+    const isOpen = btn.classList.contains('active');
+    isOpen ? close() : open();
+  });
+  nav.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', close);
+  });
+  if (backdrop) backdrop.addEventListener('click', close);
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && btn.classList.contains('active')) close();
+  });
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', setupHamburger);
+} else {
+  setupHamburger();
 }
 
 function formatMessage(title, message) {
